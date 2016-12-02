@@ -1,17 +1,17 @@
-'use strict';
-var http = require('http');
-var port = process.env.PORT || 8000;
-var pets = require('./pets2.json')
+
+
+const http = require('http');
+const port = process.env.PORT || 8000;
+const pets = require('./pets2.json');
 
 // app.disable('x-powered-by');
 
-var server = http.createServer(function(req, res) {
+const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/pets') {
     var petsJSON = JSON.stringify(pets);
     res.setHeader('Content-Type', 'application/json');
     res.end(petsJSON);
-  }
-  else if (req.method === 'GET' && req.url === '/pets/0') {
+  } else if (req.method === 'GET' && req.url === '/pets/0') {
     var petsJSON = JSON.stringify(pets[0]);
     res.setHeader('Content-Type', 'application/json');
     res.end(petsJSON);
@@ -19,8 +19,7 @@ var server = http.createServer(function(req, res) {
     var petsJSON = JSON.stringify(pets[1]);
     res.setHeader('Content-Type', 'application/json');
     res.end(petsJSON);
-  }
-  else {
+  } else {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'text/plain');
     res.end('Not Found');
@@ -50,7 +49,7 @@ var server = http.createServer(function(req, res) {
 //   res.sendStatus(404);
 // });
 
-server.listen(port, function() {
+server.listen(port, () => {
   console.log('Listening on port', port);
 });
 

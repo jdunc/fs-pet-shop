@@ -1,117 +1,114 @@
-'use strict';
 
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 8000;
-var router = express.Router();
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var fs = require('fs');
-var pets = require('./pets3.json')
+
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 8000;
+const router = express.Router();
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const fs = require('fs');
+const pets = require('./pets3.json');
 
 app.disable('x-powered-by');
 app.use(bodyParser.json());
 // app.use(morgan);
-router.get('/pets', function(req, res) {
+router.get('/pets', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.send(pets);
 });
 
-router.get('/pets/:index', function(req, res) {
-  var index = Number.parseInt(req.params.index);
+router.get('/pets/:index', (req, res) => {
+  const index = Number.parseInt(req.params.index);
 
- if(index < 0 || index > pets.length-1){
-  res.set('Content-Type', 'text/plain');
-  res.status(404);
-  res.send('Not Found');
-  }
-  else {
+  if (index < 0 || index > pets.length - 1) {
+    res.set('Content-Type', 'text/plain');
+    res.status(404);
+    res.send('Not Found');
+  } else {
     res.set('Content-Type', 'application/json');
     res.send(pets[index]);
   }
 });
 
-router.post('/pets', function(req, res){
-  var name = req.body.name;
-  var age = req.body.age;
-  var kind = req.body.kind;
+router.post('/pets', (req, res) => {
+  const name = req.body.name;
+  const age = req.body.age;
+  const kind = req.body.kind;
   // console.log(`POST request received! name:${name} age:${age} kind:${kind}`);
   // console.log(`req: ${req[0]}`);
-  if(name !== '' && kind !== '' && !isNaN(Number(age))){
-    var pet = {
-      'age': age,
-      'kind': kind,
-      'name': name
-    }
+  if (name !== '' && kind !== '' && !isNaN(Number(age))) {
+    const pet = {
+      age,
+      kind,
+      name,
+    };
     pets.push(pet);
-    fs.writeFile("./pets.json", JSON.stringify(pets), function(err) {
-      if(err) {
-          return console.log(err);
+    fs.writeFile('./pets.json', JSON.stringify(pets), (err) => {
+      if (err) {
+        return console.log(err);
       }
-    })
+    });
     res.status(200);
     res.set('Content-Type', 'application/json');
     res.send(pet);
-  } else{
+  } else {
     res.status(400);
     res.set('Content-Type', 'text/plain');
     res.send('Bad Request');
   }
+}); // end post request
 
-}); //end post request
-
-router.put('/pets/:index', function(req, res){
-  var index = Number.parseInt(req.params.index);
-  var name = req.body.name;
-  var age = req.body.age;
-  var kind = req.body.kind;
-  if(name !== '' && kind !== '' && !isNaN(Number(age))){
-    var pet = {
-      'age': age,
-      'kind': kind,
-      'name': name
-    }
+router.put('/pets/:index', (req, res) => {
+  const index = Number.parseInt(req.params.index);
+  const name = req.body.name;
+  const age = req.body.age;
+  const kind = req.body.kind;
+  if (name !== '' && kind !== '' && !isNaN(Number(age))) {
+    const pet = {
+      age,
+      kind,
+      name,
+    };
     pets[index] = pet;
-    fs.writeFile("./pets.json", JSON.stringify(pets), function(err) {
-      if(err) {
-          return console.log(err);
+    fs.writeFile('./pets.json', JSON.stringify(pets), (err) => {
+      if (err) {
+        return console.log(err);
       }
-    })
+    });
     res.status(200);
     res.set('Content-Type', 'application/json');
     res.send(pet);
-  } else{
+  } else {
     res.status(400);
     res.set('Content-Type', 'text/plain');
     res.send('Bad Request');
   }
-}); //end of put request
+}); // end of put request
 
-router.delete('/pets/:index', function(req, res) {
-  var index = Number.parseInt(req.params.index);
+router.delete('/pets/:index', (req, res) => {
+  const index = Number.parseInt(req.params.index);
 
- if(index < 0 || index > pets.length-1){
-  res.set('Content-Type', 'text/plain');
-  res.status(404);
-  res.send('Not Found');
-  }
-  else {
+  if (index < 0 || index > pets.length - 1) {
+    res.set('Content-Type', 'text/plain');
+    res.status(404);
+    res.send('Not Found');
+  } else {
     res.set('Content-Type', 'application/json');
     // console.log(pets);
-    var pet = pets.splice(index, 1)[0];
+    const pet = pets.splice(index, 1)[0];
     // console.log(pet);
     // console.log(pets);
 
     res.send(pet);
   }
-}); //end of delete request
+}); // end of delete request
 
 app.use(router);
 // app.use(function(req, res) {
 //   res.sendStatus(404);
 // });
 
-app.listen(port, function() {
+app.listen(port, () => {
   console.log('Listening on port', port);
 });
 
