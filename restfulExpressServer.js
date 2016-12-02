@@ -87,6 +87,25 @@ router.put('/pets/:index', function(req, res){
   }
 }); //end of put request
 
+router.delete('/pets/:index', function(req, res) {
+  var index = Number.parseInt(req.params.index);
+
+ if(index < 0 || index > pets.length-1){
+  res.set('Content-Type', 'text/plain');
+  res.status(404);
+  res.send('Not Found');
+  }
+  else {
+    res.set('Content-Type', 'application/json');
+    // console.log(pets);
+    var pet = pets.splice(index, 1)[0];
+    // console.log(pet);
+    // console.log(pets);
+
+    res.send(pet);
+  }
+}); //end of delete request
+
 app.use(router);
 // app.use(function(req, res) {
 //   res.sendStatus(404);

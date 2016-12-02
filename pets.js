@@ -14,11 +14,13 @@ else if(process.argv[2] === 'read'){
   }
   else{
     console.error('Usage: node pets.js [read | create | update | destroy]');
+    process.exit(1);
   }
 }
 else if(process.argv[2] === 'create'){
   if(process.argv.length !== 6){
     console.error('Usage: node pets.js create AGE KIND NAME');
+    process.exit(1);
   }
   else{
     var pet = {
@@ -32,5 +34,6 @@ else if(process.argv[2] === 'create'){
           return console.log(err);
       }
     })
+    console.log(pet);
   }
 }
