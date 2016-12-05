@@ -43,7 +43,7 @@ router.post('/pets', (req, res) => {
       name,
     };
     pets.push(pet);
-    fs.writeFile('./pets.json', JSON.stringify(pets), (err) => {
+    fs.writeFile('./pets3.json', JSON.stringify(pets), (err) => {
       if (err) {
         return console.log(err);
       }
@@ -70,7 +70,7 @@ router.put('/pets/:index', (req, res) => {
       name,
     };
     pets[index] = pet;
-    fs.writeFile('./pets.json', JSON.stringify(pets), (err) => {
+    fs.writeFile('./pets3.json', JSON.stringify(pets), (err) => {
       if (err) {
         return console.log(err);
       }
