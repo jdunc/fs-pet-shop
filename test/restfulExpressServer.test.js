@@ -77,7 +77,6 @@ describe('pets restfulExpressServer', () => {
     });
   });
 
-
   describe('POST method', () => {
     it('should update pets.json when given a valid pet object', (done) => {
       request(app)
@@ -124,7 +123,6 @@ describe('pets restfulExpressServer', () => {
     });
   });
 
-
   describe('PUT method', () => {
     it('should update pets.json when given a valid pet object', (done) => {
       request(app)
@@ -169,28 +167,28 @@ describe('pets restfulExpressServer', () => {
         .expect(400, 'Bad Request', done);
     });
   });
+
   describe('DELETE method', () => {
     it('should remove a pet from pets.json', (done) => {
       request(app)
-      .del('/pets/1')
-      .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
-      .expect('Content-type', /json/)
-      .expect(200, {
-        age: 2,
-        kind: 'owl',
-        name: 'Hugo'
-      }, (err, _res) => {
-        if (err) {
-          return done(err);
-        }
-
-        request(app)
-        .get('/pets/1')
+        .del('/pets/1')
         .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
-        .expect('Content-Type', /text\/plain/)
-        .expect(404, 'Not Found', done);
-      });
+        .expect('Content-type', /json/)
+        .expect(200, {
+          age: 2,
+          kind: 'owl',
+          name: 'Hugo'
+        }, (err, _res) => {
+          if (err) {
+            return done(err);
+          }
+
+          request(app)
+            .get('/pets/1')
+            .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
+            .expect('Content-Type', /text\/plain/)
+            .expect(404, 'Not Found', done);
+        });
     });
   });
-
 });

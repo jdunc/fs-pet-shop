@@ -48,6 +48,7 @@ router.post('/pets', (req, res) => {
         return console.log(err);
       }
     });
+    console.log(pets);
     res.status(200);
     res.set('Content-Type', 'application/json');
     res.send(pet);
@@ -87,19 +88,21 @@ router.put('/pets/:index', (req, res) => {
 
 router.delete('/pets/:index', (req, res) => {
   const index = Number.parseInt(req.params.index);
-
+  const pets = require('./pets3.json');
+  console.log(pets);
   if (index < 0 || index > pets.length - 1) {
     res.set('Content-Type', 'text/plain');
     res.status(404);
     res.send('Not Found');
-  } else {
+  }
+  else {
     res.set('Content-Type', 'application/json');
     // console.log(pets);
-    const pet = pets.splice(index, 1)[0];
+    const pet = pets.splice(index, 1);
     // console.log(pet);
     // console.log(pets);
-
-    res.send(pet);
+    console.log(pet);
+    res.send(pet[0]);
   }
 }); // end of delete request
 
